@@ -1,0 +1,13 @@
+# Download LLMs
+include: 
+  # Start Ollama
+  - ollama-runtime/ollama.yaml
+  # Download LLMs
+  - models/tinydolphin-llm.yaml
+  #- models/phi-llm.yaml
+  #- models/orca-mini-7b-llm.yaml
+
+  # Start GenAI application demos
+  - python-app-demo/app.yaml
+  - js-app-demo/app.yaml
+

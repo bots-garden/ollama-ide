@@ -1,0 +1,31 @@
+services:
+  # GenAI application
+  js-app-demo:
+    entrypoint: ["code-server", "--auth", "none", "--host", "0.0.0.0", "--port", "${JS_APP_TPL_HTTP_PORT}", "/js-app-demo"]
+    environment: &environment-js
+      - JS_APP_TPL_HTTP_PORT=${JS_APP_TPL_HTTP_PORT}
+      - XDG_DATA_HOME=/js-app-demo/.config
+      - OLLAMA_BASE_URL=http://ollama-service:11434
+    build: &build-js
+      context: .
+      dockerfile: Dockerfile    
+      args:
+        - CODER_VERSION=${CODER_VERSION}
+        - CODER_ARCH=${CODER_ARCH}
+    depends_on:
+      ollama-service:
+        condition: service_started
+    #platform: linux/${LINUX_ARCH}
+    volumes: &volumes-js
+      - ../js-app-demo:/js-app-demo
+    ports:
+      - ${JS_APP_TPL_HTTP_PORT}:${JS_APP_TPL_HTTP_PORT}
+
+  js-app-demo-tasks:
+    depends_on:
+      - js-app-demo
+    entrypoint: ["/js-app-demo/.tasks/init.sh"]
+    environment: *environment-js
+    build: *build-js  
+    #platform: linux/${LINUX_ARCH}
+    volumes: *volumes-js
