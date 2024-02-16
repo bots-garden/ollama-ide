@@ -1,4 +1,4 @@
-FROM langchain/langchain
+FROM node:20
 
 ARG CODER_VERSION=${CODER_VERSION}
 ARG CODER_ARCH=${CODER_ARCH}
@@ -10,8 +10,6 @@ RUN <<EOF
 curl -fOL https://github.com/coder/code-server/releases/download/v$CODER_VERSION/code-server_${CODER_VERSION}_${CODER_ARCH}.deb
 dpkg -i code-server_${CODER_VERSION}_${CODER_ARCH}.deb
 EOF
-
-WORKDIR /python-app-demo
 
 RUN <<EOF
 apt-get update

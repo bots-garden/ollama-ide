@@ -1,4 +1,4 @@
-FROM node:20
+FROM langchain/langchain
 
 ARG CODER_VERSION=${CODER_VERSION}
 ARG CODER_ARCH=${CODER_ARCH}
@@ -11,12 +11,16 @@ curl -fOL https://github.com/coder/code-server/releases/download/v$CODER_VERSION
 dpkg -i code-server_${CODER_VERSION}_${CODER_ARCH}.deb
 EOF
 
-WORKDIR /js-app-demo
 
 RUN <<EOF
 apt-get update
 apt-get install -y build-essential curl software-properties-common
 rm -rf /var/lib/apt/lists/*
 EOF
+
+WORKDIR /python-dev-environment
+COPY requirements.txt .
+
+RUN pip install --upgrade -r requirements.txt
 
 CMD ["/bin/bash"]
