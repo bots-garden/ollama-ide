@@ -11,7 +11,7 @@ ollama_base_url = os.getenv("OLLAMA_BASE_URL")
 
 model = ollama.Ollama(
     base_url=ollama_base_url, 
-    model='tinydolphin',
+    model='llama2',
 )
 
 # StreamLit weapp title
@@ -36,4 +36,3 @@ if something:
         response = chain.invoke({"something": something})          
         # Displaying the response          
         st.write(response)
-

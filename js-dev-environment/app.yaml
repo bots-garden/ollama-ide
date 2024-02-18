@@ -1,11 +1,16 @@
 services:
   # GenAI application
   js-dev-environment:
-    entrypoint: ["code-server", "--auth", "none", "--host", "0.0.0.0", "--port", "${JS_APP_TPL_HTTP_PORT}", "/js-dev-environment/workspace"]
+    entrypoint: ["code-server", "--auth", "none", "--host", "0.0.0.0", "--port", "${JS_DEV_ENV_HTTP_PORT}", "/js-dev-environment/workspace"]
+    # HTTPS entrypoint
+    #entrypoint: ["code-server", "--cert", "/js-dev-environment/certs/${TLS_CERT}", "--cert-key", "/js-dev-environment/certs/${TLS_CERT_KEY}", "--auth", "none", "--host", "0.0.0.0", "--port", "${JS_DEV_ENV_HTTP_PORT}", "/js-dev-environment/workspace"]
     environment: &environment-js
-      - JS_APP_TPL_HTTP_PORT=${JS_APP_TPL_HTTP_PORT}
+      - JS_DEV_ENV_HTTP_PORT=${JS_DEV_ENV_HTTP_PORT}
       - XDG_DATA_HOME=/js-dev-environment/.config
-      - OLLAMA_BASE_URL=http://ollama-service:11434
+      # Ollama is running in a containerr without GPU
+      #- OLLAMA_BASE_URL=http://ollama-service:11434
+      # Access to the hosted Ollama on MacBook M1
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
     build: &build-js
       context: .
       dockerfile: Dockerfile    
@@ -19,7 +24,7 @@ services:
     volumes: &volumes-js
       - ../js-dev-environment:/js-dev-environment
     ports:
-      - ${JS_APP_TPL_HTTP_PORT}:${JS_APP_TPL_HTTP_PORT}
+      - ${JS_DEV_ENV_HTTP_PORT}:${JS_DEV_ENV_HTTP_PORT}
 
   js-dev-environment-tasks:
     depends_on:

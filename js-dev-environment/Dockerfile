@@ -17,4 +17,6 @@ apt-get install -y build-essential curl software-properties-common
 rm -rf /var/lib/apt/lists/*
 EOF
 
+WORKDIR /js-dev-environment
+
 CMD ["/bin/bash"]

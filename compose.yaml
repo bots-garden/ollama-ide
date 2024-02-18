@@ -1,6 +1,7 @@
 include: 
   # Start Ollama
   - ollama-runtime/ollama.yaml
+
   # Download LLMs
   - models/tinydolphin-llm.yaml
   # model + chat model
@@ -8,6 +9,8 @@ include:
 
   #- models/phi-llm.yaml
   #- models/orca-mini-7b-llm.yaml
+  - models/llama2.yaml
+  #- models/llama2-13b.yaml
 
   # Start GenAI application demos
   - python-dev-environment/app.yaml

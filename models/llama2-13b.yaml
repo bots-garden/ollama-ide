@@ -1,0 +1,13 @@
+services:
+  download-llama2-13b-llm:
+    image: curlimages/curl:8.6.0
+    entrypoint: ["curl", "ollama-service:11434/api/pull", "-d", '{"name": "llama2:13b"}']
+    depends_on:
+      ollama-service:
+        condition: service_started
+  download-llama2-13b-chat-llm:
+    image: curlimages/curl:8.6.0
+    entrypoint: ["curl", "ollama-service:11434/api/pull", "-d", '{"name": "llama2:13b-chat"}']
+    depends_on:
+      ollama-service:
+        condition: service_started

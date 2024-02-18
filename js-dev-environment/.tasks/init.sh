@@ -11,9 +11,9 @@ code-server --install-extension gitpod.gitpod-theme
 
 #yarn install
 pwd
-yarn --cwd js-dev-environment/workspace install
+yarn --cwd js-dev-environment install
 
-echo "🌍 open: http://0.0.0.0:${JS_APP_TPL_HTTP_PORT}"
+echo "🌍 open: http://0.0.0.0:${JS_DEV_ENV_HTTP_PORT}"
 
 
 

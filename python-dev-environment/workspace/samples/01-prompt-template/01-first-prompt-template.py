@@ -7,7 +7,7 @@ ollama_base_url = os.getenv("OLLAMA_BASE_URL")
 
 model = ollama.Ollama(
     base_url=ollama_base_url, 
-    model='tinydolphin',
+    model='llama2',
 )
 
 prompt_template = PromptTemplate.from_template(

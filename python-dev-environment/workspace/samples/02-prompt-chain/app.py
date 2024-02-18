@@ -3,26 +3,19 @@ import os
 from langchain_community.llms import ollama
 
 from langchain.prompts import PromptTemplate
+#from langchain.schema import StrOutputParser
 from langchain_core.output_parsers import StrOutputParser
 
 from langchain_core.runnables import RunnablePassthrough
-
-import streamlit as st
 
 ollama_base_url = os.getenv("OLLAMA_BASE_URL")
 
 model = ollama.Ollama(
     base_url=ollama_base_url, 
-    model='tinydolphin',
+    model='llama2',
 )
 
-# StreamLit weapp title
-st.title("Tutorial Generator")
-
-#programming_language = "python"
-
-# Text input field for the user
-programming_language = st.text_input("Choose a language to generate a tutorial")
+programming_language = "python"
 
 # Prompt template
 language_prompt = PromptTemplate.from_template(
@@ -33,19 +26,21 @@ tutorial_prompt = PromptTemplate.from_template(
     You are a developer, given the programming language defintion, 
     you will write a tutorial for the noobs about this language,
     with some source code examples.
-    Language: {language_defintion}
+    Language: {language_definition}
     """
 )
 language_chain = language_prompt | model | StrOutputParser()
 tutorial_chain = tutorial_prompt | model | StrOutputParser()
 
 chain =(
-    {"language_defintion": language_chain}
+    {"language_definition": language_chain}
     | RunnablePassthrough.assign(tutorial=tutorial_chain)
 )
+ 
+response = chain.invoke({"programming_language": programming_language})  
+# /api/generate
 
-if programming_language:
-    with st.spinner("Generating a tutorial..."):          
-        response = chain.invoke({"programming_language": programming_language})  
-        st.header(response["language_defintion"])
-        st.write(response["tutorial"])
+print(response["language_definition"])
+print("\n-----------------------------------\n")
+print(response["tutorial"])
+

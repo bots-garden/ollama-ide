@@ -9,8 +9,7 @@ let ollama = new Ollama({
 
 const response = await ollama.chat({
 
-  model: 'tinydolphin',
-  //model: 'orca-mini:7b',
+  model: 'llama2',
   messages: [{ 
     role: 'user', 
     content: 'I need a golang function to reverse a string' 
